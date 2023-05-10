@@ -18,20 +18,18 @@ def preview():
     result = top10rows.to_json(orient="records")
     return result
 
-@app.get('/npr/{value}')
-def nprcode(value: str):
-    print('value: ', value)
-    filtered = df[df['NPROPNAME'] == value]
-    if len(filtered) <= 0:
-        return 'Not Available'
-    else: 
-        return filtered.to_json(orient="records")
+@app.get("/npr/{npr_code}")
+def search_by_npr_code(npr_code: str):
+    data = df.loc[df['NPR_CODE'] == npr_code].to_dict(orient='records')
+    if len(data) == 0:
+        return {"message": "No data found for NPR code {}".format(npr_code)}
+    else:
+        return data
 
-@app.get('/icd/{value}/sex/{value2}')
-def icdcode2(value: str, value2: str):
-    filtered = df[df['principal_diagnosis_code'] == value]
-    filtered2 = filtered[filtered['sex'] == value2]
-    if len(filtered2) <= 0:
-        return 'Not Available'
-    else: 
-        return filtered2.to_json(orient="records")
+@app.get("/drugname/{drug_name}")
+def search_by_drug_name(drug_name: str):
+    data = df.loc[df['DRUG_NAME'] == drug_name].to_dict(orient='records')
+    if len(data) == 0:
+        return {"message": "No data found for drug {}".format(drug_name)}
+    else:
+        return data
