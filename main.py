@@ -3,9 +3,9 @@
 from fastapi import FastAPI
 import pandas as pd 
 
-df = pd.read_csv('./data/Drugs2018.csv')
-
 app = FastAPI()
+
+df = pd.read_csv('./data/Drugs2018.csv')
 
 
 @app.get('/')
